@@ -1,64 +1,19 @@
-This is a template for the EDAV final project. It is based on the template created with *File, New Project..., New Directory, Book Project using bookdown* in RStudio. 
+- Unlike tradition stocks, cryptocurrencies are not backed by any assets or cash flow, the only thing driving their prices is sentiment-driven speculation. As sentiment changes, prices can  change dramatically.
 
+- Therefore, compared with traditional financial derivatives, the data of the factors affecting the price changes of cryptocurrencies is more transparent, meaning that we do not need to get some  difficult-to-obtain data such as company financial reports, thus making the exploratory data analysis more accessible.
 
-## ABSOLUTE ESSENTIALS
+# 2 Data Resources
 
-*If you have any difficulties or have feedback of any kind, please file an issue.*
+- Most of the cryptocurrency data will be obtained by the API of [CoinAPI](https://www.coinapi.io/).
 
-### Copy this template
+- The traditional stocks data will be obtained by Yahoo Finance API [YH Finance API](https://www.yahoofinanceapi.com)
 
-- [ ] 1. Click the green "Use this template" button above.  DO NOT FORK THE REPO. Choose a descriptive name for your repo, such as "federalbudget" or "AIDSdeaths".  (If you change your mind before you do any work, delete your new repo and start over.)
+- We will also need some supportive data for exploratory data analysis, an primary data source will be [Google Trend](https://trends.google.com/trends/?geo=US)
 
-- [ ] 2. In the Description field, write: "Bookdown source files for EDAV final project".
+# 3 Potential Research Questions
 
-### Set up GitHub Pages	
-- [ ] 1. On the home page of your repo, click Settings. Scroll down to the GitHub pages section and change **Source** from **None** to **main**, change **/ (root)** to **/docs** folder, and click Save. Above the **Source** line, a bar will appear with your book's URL. The bar will initially be blue and indicate that your book is *ready* to be published and will change to green once it is published. Copy the URL. (Note that sometimes there is a delay until your book actually appears at that URL. If it doesn't appear after a few minutes, make a change and commit it to trigger a GitHub Pages build.)	
+- Explore the development trend of cryptocurrencies from the market size and their public attention. We can obtain the data of cryptocurrencies by coin-API and the public attention will be quantified by using the Google trend index.
 
-- [ ] 2. Click the gear button near "About" on the home page of the repo and paste your book URL into the **Website** field that appears on the right.
+- Show how the cryptocurrencies are different from traditional financial derivatives by comparing their behavior when affected by the positive or negative factor under the same time period. YH Finance API mentioned above can provide us with the data in the traditional financial market. 
 
-### Clone the repo
-
-- [ ] 1. Clone your new repo with *File, New Project..., Version Control, Git* in RStudio.
-
-### Edit some key files
-
-- [ ] 1. In `index.Rmd`, change YOUR TITLE HERE to your title.
-
-- [ ] 2. In `index.Rmd`, change YOUR NAMES HERE to your names.
-
-- [ ] 3. In `_bookdown.yml`, change YOUR GITHUB USERNAME to your GitHub username in the two places it appears.
-
-- [ ] 4. In `_bookdown.yml`, change YOUR GITHUB REPO to your GitHub repo name in the two places it appears.
-
-(Note that 3. and 4. provide links to the `.Rmd` files of your project for editing and viewing. If you move your `.Rmd` files you will need to update these file paths. Once your book is rendered, test that the edit (pen) and view (eye) buttons work.)
-
-- [ ] 5. In `_output.yml`, change YOUR SHORT TITLE to a shortened version of your title. (Leave the "after:" line indicating that the book was published with bookdown as is.)
-
-### Render the book
-
-- [ ] 1. Install **bookdown** with `install.packages("bookdown")`. If you already have it, update to the most recent version.
-
-- [ ] 2. Render locally with `bookdown::render_book("index.Rmd")` or clicking the *Build book* button which should appear in the Build tab (in the same pane as Environment, History, Connections, ...).
-
-- [ ] 3. Use `browseURL("docs/index.html")` to view your book locally (or just open `index.html` in a browser).
-
-- [ ] 4. If it looks good, commit and push all changed files to GitHub. 
-
-(You will need to repeat steps 2 and 4 every time you wish to update the book online.)
-
-### Edit README	
-
-Once you've completed these steps, delete the content of this **README** and add a short description of your project with a link to the book URL. It would be appreciated if you add the following to the end:	
-
-*This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.*	
-
-### Demo Video	
-
-A demo video showing how to create a **bookdown book** following these similar instructions: http://bit.ly/fiveminutebookdown Note that this video uses a different template.
-
-### Additional features	
-
-Please consult the official guide to **bookdown**: https://bookdown.org/yihui/bookdown
-
-
-
+- What factors are related to the price of cryptocurrencies? Rather than modeling, we will apply an exploratory data analysis on this question. To solving this question, we will get further information by searching through more data resources to determine how to measure some messy  non-numerical factor.
