@@ -23,7 +23,7 @@
 <meta name="author" content="Xuan Lian" />
 
 
-<meta name="date" content="2022-04-06" />
+<meta name="date" content="2022-05-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -72,8 +72,18 @@
 <li><a href="./">crypto</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#whats-cyrpto"><i class="fa fa-check"></i><b>1.1</b> What’s cyrpto?<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-crypto"><i class="fa fa-check"></i><b>1.2</b> Why crypto?<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#why-not-crypto"><i class="fa fa-check"></i><b>1.3</b> Why not Crypto?<span></span></a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#our-goal"><i class="fa fa-check"></i><b>1.4</b> Our goal<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#yahoo-finance"><i class="fa fa-check"></i><b>2.1</b> Yahoo Finance<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#google-trend"><i class="fa fa-check"></i><b>2.2</b> Google Trend<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a></li>
@@ -100,7 +110,44 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources<a href="data-sources.html#data-sources" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="yahoo-finance" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Yahoo Finance<a href="data-sources.html#yahoo-finance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>The crypto and traditional stocks data will be obtained by Yahoo Finance Website <a href="https://finance.yahoo.com">YH Finance</a></p></li>
+<li><p>We need following two packages to import data.</p>
+<ul>
+<li><p>quantmod</p></li>
+<li><p>TTL</p></li>
+</ul></li>
+</ul>
+<p>Here we show the code of extracting the Bitcoin Data of the latest three days.</p>
+<pre><code>install.packages(&#39;quantmod&#39;)
+install.packages(&#39;TTR&#39;)
+library(&#39;TTR&#39;)
+library(&#39;quantmod&#39;)
+df_btc &lt;- getSymbols(&#39;BTC-USD&#39;,src=&#39;yahoo&#39;,auto.assign=FALSE)
+tail(df_btc,3)</code></pre>
+<pre><code>##            BTC-USD.Open BTC-USD.High BTC-USD.Low BTC-USD.Close BTC-USD.Volume BTC-USD.Adjusted
+## 2022-04-29     39768.62     39887.27    38235.54      38609.82    30882994649         38609.82
+## 2022-04-30     38605.86     38771.21    37697.94      37714.88    23895713731         37714.88
+## 2022-05-01     37715.72     38617.62    37610.79      37849.74    26058674176         37849.74</code></pre>
+</div>
+<div id="google-trend" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Google Trend<a href="data-sources.html#google-trend" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To quantify the social impact of the cryptos, we use Google Trend as the measurement and retrieve Google Trends data via <code>gtrendsR</code> package.</p>
+<p>The <code>gtrendsR</code> package is on CRAN and can be installed via</p>
+<pre><code>install.packages(&quot;gtrendsR&quot;)</code></pre>
+<p>Here we show the code of retrieving and displaying the Google Trend ‘interest over time’ data for the keyword ‘Bitcoin’ in the United States.</p>
+<pre><code>install.packages(&quot;gtrendsR&quot;)
+library(gtrendsR)
+Bitcoin_US_trend &lt;- gtrends(c(&quot;Bitcoin&quot;), geo = c(&quot;US&quot;))
+print(tail(Bitcoin_US_trend$interest_over_time,3))</code></pre>
+<pre><code>##           date hits keyword geo      time gprop category
+## 258 2022-04-10   14 Bitcoin  US today+5-y   web        0
+## 259 2022-04-17   13 Bitcoin  US today+5-y   web        0
+## 260 2022-04-24   14 Bitcoin  US today+5-y   web        0</code></pre>
 
+</div>
 </div>
             </section>
 

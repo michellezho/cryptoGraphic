@@ -1,2 +1,46 @@
 # Data sources
 
+## Yahoo Finance
+
+- The crypto and traditional stocks data  will be obtained by Yahoo Finance Website [YH Finance](https://finance.yahoo.com)
+
+- We need following two packages to import data.
+
+  - quantmod
+  
+  - TTL
+
+Here we show the code of extracting the Bitcoin Data of the latest three days.
+
+    install.packages('quantmod')
+    install.packages('TTR')
+    library('TTR')
+    library('quantmod')
+    df_btc <- getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)
+    tail(df_btc,3)
+
+```{r include = TRUE}
+df_btc <- getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)
+tail(df_btc,3)
+```
+
+## Google Trend
+
+To quantify the social impact of the cryptos, we use Google Trend as the measurement and retrieve Google Trends data via `gtrendsR` package.
+
+The `gtrendsR` package is on CRAN and can be installed via
+    
+    install.packages("gtrendsR")
+
+Here we show the code of retrieving and displaying the Google Trend 'interest over time' data for the keyword 'Bitcoin' in the United States.
+
+    install.packages("gtrendsR")
+    library(gtrendsR)
+    Bitcoin_US_trend <- gtrends(c("Bitcoin"), geo = c("US"))
+    print(tail(Bitcoin_US_trend$interest_over_time,3))
+
+```{r}
+Bitcoin_US_trend <- gtrends(c("Bitcoin"), geo = c("US"))
+print(tail(Bitcoin_US_trend$interest_over_time,3))
+```
+

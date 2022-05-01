@@ -1,5 +1,11 @@
 introduction
+whats-cyrpto
+why-crypto
+why-not-crypto
+our-goal
 data-sources
+yahoo-finance
+google-trend
 data-transformation
 missing-values
 results
