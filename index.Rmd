@@ -68,7 +68,7 @@ Based on the characteristics of cryptocurrency, we have raised several basic que
 
 And after having the basic idea of the cryptocurrencies, we want try to doing some research on the following questions.
 
-- Explore the development trend of cryptocurrencies from the market size and their public attention. 
+- Explore the development trend of cryptocurrencies from the market cap and their public attention. 
 
 - Show how the cryptocurrencies are different from traditional financial derivatives by comparing their behavior when affected by the positive or negative factor under the same time period. 
 

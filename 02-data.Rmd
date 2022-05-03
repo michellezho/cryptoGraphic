@@ -1,6 +1,8 @@
 # Data sources
 
-## Yahoo Finance
+- Xuan Lian is responsible for collecting the data.
+
+## Yahoo Finance API
 
 - The crypto and traditional stocks data  will be obtained by Yahoo Finance Website [YH Finance](https://finance.yahoo.com)
 
@@ -24,7 +26,9 @@ df_btc <- getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)
 tail(df_btc,3)
 ```
 
-## Google Trend
+
+
+## Google Trend API
 
 To quantify the social impact of the cryptos, we use Google Trend as the measurement and retrieve Google Trends data via `gtrendsR` package.
 
@@ -42,5 +46,42 @@ Here we show the code of retrieving and displaying the Google Trend 'interest ov
 ```{r}
 Bitcoin_US_trend <- gtrends(c("Bitcoin"), geo = c("US"))
 print(tail(Bitcoin_US_trend$interest_over_time,3))
+```
+
+## CoinMarketCap 
+
+We are also interested in the data of the market cap of cryptocurrencies, so we will also use CoinMarketCap website to get historical market cap data of cryptocurrencies.
+
+We will use `rvest` package to get the information from the website. We are interested in the yearly market cap data, so we get the historical snapshot at December 31th from 2016 to 2021 for the top 20 market cap cryptocurrencies and ignore the others.
+
+    base_url = 'https://coinmarketcap.com/historical/'
+    for(year in seq(2016,2021)){
+      url = paste0(base_url,year,'1231')
+      dt = read_html(url) %>% html_table(fill = TRUE)
+      dt = dt[3][[1]] %>% 
+        select(Symbol, `Market Cap`) %>%
+        mutate('year' = year) %>%
+        slice_head(n=20)
+    if(year == 2016){crypto_market_cap = as_tibble(dt)}
+    else{crypto_market_cap = rbind(crypto_market_cap,dt)}
+      }
+
+```{r}
+base_url = 'https://coinmarketcap.com/historical/'
+
+for(year in seq(2016,2021)){
+  url = paste0(base_url,year,'1231')
+  dt = read_html(url) %>% html_table(fill = TRUE)
+  dt = dt[3][[1]] %>% select(Symbol, `Market Cap`) %>%
+    mutate('year' = year) %>%
+    slice_head(n=20)
+  if(year == 2016){
+    crypto_market_cap = as_tibble(dt)
+  }
+  else{
+    crypto_market_cap = rbind(crypto_market_cap,dt)
+  }
+}
+print(head(crypto_market_cap))
 ```
 

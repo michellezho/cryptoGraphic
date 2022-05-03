@@ -1,1 +1,45 @@
 # Missing values
+
+We are going to use adjusted closing price to compare the behavior between the traditional stocks and cryptocurrencies.
+
+For traditional stocks, due to the limitation of trading dates, OHLCV data on non-trading dates will be missing compared to cryptocurrencies, and we choose to use previous data to fill in.
+
+We will try to figure out the problem using the daily adjusted closing price of Bitcoin and NASDAQ 100 from 2016 to 2021, here is the sample of our origin data.
+
+```{r include = TRUE}
+df_ndx <- getSymbols('^NDX',src='yahoo',auto.assign=FALSE)
+date_seq = seq(as.Date("2015/12/31"), as.Date("2021/12/31"), "days")
+df_ndx_1 = df_ndx[date_seq]$NDX.Adjusted
+df_btc_1 = df_btc[date_seq]$`BTC-USD.Adjusted`
+df_1 = df_btc_1 %>% merge(df_ndx_1)
+head(df_1,5)
+```
+
+Here we plot the missing values in year 2016.
+
+```{r}
+df_2 = as_tibble(df_1) %>% 
+  cbind(date = date_seq) 
+tidy_df_1 = df_2 %>%
+  slice(1:365) %>%
+  gather(key, value, -date) %>% 
+  mutate(missing = ifelse(is.na(`value`), "yes", "no")) 
+ggplot(tidy_df_1, aes(x = key, y = date, fill = missing)) +
+  geom_tile(color = "white") + 
+  scale_fill_viridis_d() +
+  scale_y_date(date_breaks = '1 month') +
+  labs(title = 'Missing values in year 2016') +
+  theme_bw()
+df_2 = df_2 %>%
+  column_to_rownames('date')
+plot_missing(df_2)
+```
+
+And we will use last non-missing observation carried forward to fill missing values
+
+```{r}
+df_no_missing = df_2 %>%
+  column_to_rownames('date') 
+df_no_missing = setnafill(df_no_missing,'locf')
+head(df_no_missing)
+```

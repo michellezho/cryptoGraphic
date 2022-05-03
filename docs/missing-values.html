@@ -23,7 +23,7 @@
 <meta name="author" content="Xuan Lian" />
 
 
-<meta name="date" content="2022-05-01" />
+<meta name="date" content="2022-05-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -81,8 +81,9 @@
 </ul></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#yahoo-finance"><i class="fa fa-check"></i><b>2.1</b> Yahoo Finance<span></span></a></li>
-<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#google-trend"><i class="fa fa-check"></i><b>2.2</b> Google Trend<span></span></a></li>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#yahoo-finance-api"><i class="fa fa-check"></i><b>2.1</b> Yahoo Finance API<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#google-trend-api"><i class="fa fa-check"></i><b>2.2</b> Google Trend API<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#coinmarketcap"><i class="fa fa-check"></i><b>2.3</b> CoinMarketCap<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
@@ -110,6 +111,25 @@
             <section class="normal" id="section-">
 <div id="missing-values" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values<a href="missing-values.html#missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We are going to use adjusted closing price to compare the behavior between the traditional stocks and cryptocurrencies.</p>
+<p>For traditional stocks, due to the limitation of trading dates, OHLCV data on non-trading dates will be missing compared to cryptocurrencies, and we choose to use previous data to fill in.</p>
+<p>We will try to figure out the problem using the daily adjusted closing price of Bitcoin and NASDAQ 100 from 2016 to 2021, here is the sample of our origin data.</p>
+<pre><code>##            BTC.USD.Adjusted NDX.Adjusted
+## 2015-12-31       430.566986  4593.270020
+## 2016-01-01       434.334015           NA
+## 2016-01-02       433.437988           NA
+## 2016-01-03       430.010986           NA
+## 2016-01-04       433.091003  4497.859863</code></pre>
+<p>Here we plot the missing values in year 2016.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p>And we will use last non-missing observation carried forward to fill missing values</p>
+<pre><code>##            BTC.USD.Adjusted NDX.Adjusted
+## 2015-12-31       430.566986  4593.270020
+## 2016-01-01       434.334015  4593.270020
+## 2016-01-02       433.437988  4593.270020
+## 2016-01-03       430.010986  4593.270020
+## 2016-01-04       433.091003  4497.859863
+## 2016-01-05       431.959991  4484.180176</code></pre>
 
 </div>
             </section>

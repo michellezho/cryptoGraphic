@@ -23,7 +23,7 @@
 <meta name="author" content="Xuan Lian" />
 
 
-<meta name="date" content="2022-05-01" />
+<meta name="date" content="2022-05-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -81,8 +81,9 @@
 </ul></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#yahoo-finance"><i class="fa fa-check"></i><b>2.1</b> Yahoo Finance<span></span></a></li>
-<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#google-trend"><i class="fa fa-check"></i><b>2.2</b> Google Trend<span></span></a></li>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#yahoo-finance-api"><i class="fa fa-check"></i><b>2.1</b> Yahoo Finance API<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#google-trend-api"><i class="fa fa-check"></i><b>2.2</b> Google Trend API<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="data-sources.html"><a href="data-sources.html#coinmarketcap"><i class="fa fa-check"></i><b>2.3</b> CoinMarketCap<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
@@ -110,6 +111,20 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation<a href="data-transformation.html#data-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>For the market cap data, the <code>Market Cap</code> variable is in character type, so we need to transform this attribute to numeric type.</p>
+<pre><code>Market_cap = crypto_market_cap$`Market Cap`
+Market_cap = substr(Market_cap,2,length(Market_cap))
+Market_cap = str_replace_all(Market_cap,&#39;,&#39;,&#39;&#39;)
+options(digits=10)
+crypto_market_cap$`Market Cap` = as.numeric(Market_cap)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+##   Symbol `Market Cap`  year
+##   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;
+## 1 BTC    15492555878.  2016
+## 2 ETH      696993350.  2016
+## 3 XRP      234334890.  2016
+## 4 LTC      212503031.  2016</code></pre>
+<p>And as we basically want the eight cryptocurrencies with the largest market cap each year. So we will get a tidy version of the data and aggregate the other cryptocurrencies.</p>
 
 </div>
             </section>
