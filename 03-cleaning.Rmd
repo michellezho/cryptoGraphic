@@ -3,13 +3,8 @@
 
 For the market cap data, the `Market Cap` variable is in character type, so we need to transform this attribute to numeric type.
 
-    Market_cap = crypto_market_cap$`Market Cap`
-    Market_cap = substr(Market_cap,2,length(Market_cap))
-    Market_cap = str_replace_all(Market_cap,',','')
-    options(digits=10)
-    crypto_market_cap$`Market Cap` = as.numeric(Market_cap)
     
-```{r}
+```{r,echo = TRUE}
 Market_cap = crypto_market_cap$`Market Cap`
 Market_cap = substr(Market_cap,2,length(Market_cap))
 Market_cap = str_replace_all(Market_cap,',','')
@@ -20,7 +15,7 @@ head(crypto_market_cap,n=4)
 
 And as we basically want the eight cryptocurrencies with the largest market cap each year. So we will get a tidy version of the data and aggregate the other cryptocurrencies.
 
-```{r}
+```{r,echo = TRUE}
 crypto_market_cap_1 = crypto_market_cap %>%
   arrange(`Market Cap`) %>%
   group_by(year) %>%
@@ -35,4 +30,5 @@ crypto_market_cap_2 = crypto_market_cap %>%
   slice(1:3)
 crypto_market_cap_tidy = rbind(crypto_market_cap_2,crypto_market_cap_1) %>%
   arrange(year,desc(`Market Cap`))
+head(crypto_market_cap_tidy)
 ```

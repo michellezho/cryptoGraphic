@@ -14,14 +14,12 @@
 
 Here we show the code of extracting the Bitcoin Data of the latest three days.
 
-    install.packages('quantmod')
-    install.packages('TTR')
-    library('TTR')
-    library('quantmod')
-    df_btc <- getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)
-    tail(df_btc,3)
 
-```{r include = TRUE}
+```{r,echo = TRUE}
+# install.packages('quantmod')
+# install.packages('TTR')
+library('TTR')
+library('quantmod')
 df_btc <- getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)
 tail(df_btc,3)
 ```
@@ -38,12 +36,11 @@ The `gtrendsR` package is on CRAN and can be installed via
 
 Here we show the code of retrieving and displaying the Google Trend 'interest over time' data for the keyword 'Bitcoin' in the United States.
 
-    install.packages("gtrendsR")
-    library(gtrendsR)
-    Bitcoin_US_trend <- gtrends(c("Bitcoin"), geo = c("US"))
-    print(tail(Bitcoin_US_trend$interest_over_time,3))
 
-```{r}
+
+```{r,echo = TRUE}
+# install.packages("gtrendsR")
+library(gtrendsR)
 Bitcoin_US_trend <- gtrends(c("Bitcoin"), geo = c("US"))
 print(tail(Bitcoin_US_trend$interest_over_time,3))
 ```
@@ -54,19 +51,8 @@ We are also interested in the data of the market cap of cryptocurrencies, so we 
 
 We will use `rvest` package to get the information from the website. We are interested in the yearly market cap data, so we get the historical snapshot at December 31th from 2016 to 2021 for the top 20 market cap cryptocurrencies and ignore the others.
 
-    base_url = 'https://coinmarketcap.com/historical/'
-    for(year in seq(2016,2021)){
-      url = paste0(base_url,year,'1231')
-      dt = read_html(url) %>% html_table(fill = TRUE)
-      dt = dt[3][[1]] %>% 
-        select(Symbol, `Market Cap`) %>%
-        mutate('year' = year) %>%
-        slice_head(n=20)
-    if(year == 2016){crypto_market_cap = as_tibble(dt)}
-    else{crypto_market_cap = rbind(crypto_market_cap,dt)}
-      }
 
-```{r}
+```{r,echo = TRUE}
 base_url = 'https://coinmarketcap.com/historical/'
 
 for(year in seq(2016,2021)){

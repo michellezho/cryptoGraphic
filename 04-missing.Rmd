@@ -39,9 +39,8 @@ Only NDX.Adj contains the missing value, and the proportion of missing row is ap
 
 And we will use last non-missing observation carried forward to fill missing values
 
-    df_no_missing = setnafill(df_2,'locf')
 
-```{r}
+```{r,echo = TRUE}
 df_no_missing = setnafill(df_2,'locf')
 head(df_no_missing)
 ```
