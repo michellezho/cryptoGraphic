@@ -187,9 +187,98 @@ From the plot we can conclude that both the cryptocurrency, represented by Bitco
 
 ## Price v.s. Google Trend
 
+Social media and news play an important role in driving the fluctuation of economic indicators and financial markets in a nontrivial fashion. Therefore, it is not surprising that the rapid development of cryptocurrency has attracted increasing attention from news and social media.
+
+In this part, we introduce Google trend as the measurement and perform preliminary data exploratory method to discuss its relationship with cryptos(BTC) pricing change. 
+
+```{r}
+## This API will also load data significantly slow, so we write the data to csv
+
+# Bitcoin_US_trend_overtime =
+#   gtrends(c("Bitcoin"), geo = c("US"),time = '2018-01-01 2018-01-02')$interest_over_time
+# for (year in seq(2018,2021)){
+#   for(month in seq(1,12)){
+#     if(month!=12){time_period = paste0(year,'-',month,'-03 ',year,'-',month+1,'-02')}
+#     else{time_period = paste0(year,'-12-03 ',year+1,'-01-02')}
+#     new_trend =
+#       gtrends(c("Bitcoin"), geo = c("US"),time = time_period)$interest_over_time
+#     Bitcoin_US_trend_overtime = rbind(Bitcoin_US_trend_overtime,new_trend)
+#   }
+# }
+# write_csv(Bitcoin_US_trend_overtime,'Bitcoin_US_trend.csv')
+```
 
 
+```{r}
+Bitcoin_US_daily_trend = read_csv('Bitcoin_US_trend.csv')
+Bitcoin_US_daily_HIT = Bitcoin_US_daily_trend %>% 
+  dplyr::select(date,hits) %>%
+  slice(2:1461)
 
+dt_BTC_return =  -diff(dt_BTC$`BTC-USD.Close`)/dt_BTC$`BTC-USD.Close`[-1] *  100
 
+BTC_daily_trend = dt_BTC_return %>% merge(Bitcoin_US_daily_HIT$hits)
+trans = .5
+data.frame(BTC_daily_trend) %>% 
+  rownames_to_column('DATE') %>%
+  mutate(Date = as.Date(DATE))%>%
+  ggplot() +
+  geom_line(aes(x = Date, y =BTC.USD.Close,col= "Bitcoin Daily Return %")) +
+  geom_col(aes(x = Date, y=Bitcoin_US_daily_HIT.hits/10,fill = 'Google Trend Index'),alpha = 0.5)+
+  geom_col(aes(x = Date, y=-Bitcoin_US_daily_HIT.hits/10,fill = 'Google Trend Index'),alpha = 0.5)+
+  scale_color_manual(values = c("Bitcoin Daily Return %" = "Blue"))+
+   scale_y_continuous(
+    name = "Bitcoin Daily Return %",
+    sec.axis = sec_axis(~.*1,name="Google Trend Index")
+  )+
+  theme_bw() +
+  labs(title='Bitcoin Daily Return v.s Google Trend Index',
+       colour = '',fill = '')
+```
 
+The plot shows that there is a certain lag between the popularity on social media and the daily return of cryptocurrencies. Generally, the Google Trend index will increase significantly a few days after days when Bitcoin fluctuated violently.
 
+## Google Trend v.s State
+
+Who are more interested in cryptos? This is also an interesting questions, as the transactions of Cryptocurrency are anonymous, we cannot obtain information about traders. So we will use Google Trend Index to get the demography characters of the people who are interested in cryptos.
+
+```{r}
+Bitcoin_US_trend_alltime =gtrends(c("Bitcoin"), geo = c("US"),time ='all')
+library(maps)
+library(paletteer)
+state <- map_data("state")
+ggplot(data=Bitcoin_US_trend_by_state_map,
+       aes(x=long, y=lat, fill=hits, group=group)) + 
+  geom_polygon(color = "white") + 
+  guides(fill= guide_colourbar(barheight = unit(2, "cm"))) + 
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),axis.title.y=element_blank(),
+        axis.text.y=element_blank(), axis.ticks.y=element_blank()) + 
+  ggtitle('U.S. Bitcoin Google Trend Index Heatmap') +
+  paletteer::scale_fill_paletteer_c("viridis::plasma")+
+  coord_fixed(1.3) +
+  labs(fill='Google Trend Index',
+       subtitle = 'Aggregate data From 2004 to 2022')
+```
+
+It is understandable that states such as California, Washington, and New York , which are economically developed, and where the Internet and financial companies gather, show a high interest in Bitcoin. But it's surprisingly to see that people in Nevada are the most ardent fan of Bitcoin.
+
+By searching some information, we believe this result is due to Nevada’s easing policy on cryptocurrencies. Nevada became the first state to ban local governments from taxing blockchain use when it enacted Senate Bill No. 398, which established various provisions relating to the use of blockchain technology.
+
+## related query
+
+What else would people who follow Bitcoin search for? We plot the following word cloud to visualize it.
+
+```{r}
+library(wordcloud)
+Bitcoin_US_trend_related = Bitcoin_US_trend_alltime$related_topics %>%
+  rbind(Bitcoin_US_trend_alltime$related_topics) %>%
+  dplyr::select(value,subject) %>%
+  mutate(subject = ifelse(is.na(as.numeric(subject)),1, as.numeric(subject))) %>%
+  slice_min(order_by = subject,n = 92)
+wordcloud(words = Bitcoin_US_trend_related$value, 
+          freq = Bitcoin_US_trend_related$subject, min.freq = 1, max.words=200,
+          random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+```
+
+'Stock' and 'Ethereum' are most related, which also confirms our previous theory, that cryptocurrencies have strong correlations with each other and with traditional stocks.

@@ -15,5 +15,7 @@ price-v.s-price
 among-cryptocurrencies
 cryptos-v.s-stocks
 price-v.s.-google-trend
+google-trend-v.s-state
+related-query
 interactive-component
 conclusion

@@ -160,6 +160,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#cryptos-v.s-stocks"><i class="fa fa-check"></i><b>5.2.2</b> Cryptos v.s stocks<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#price-v.s.-google-trend"><i class="fa fa-check"></i><b>5.3</b> Price v.s. Google Trend<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#google-trend-v.s-state"><i class="fa fa-check"></i><b>5.4</b> Google Trend v.s State<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#related-query"><i class="fa fa-check"></i><b>5.5</b> related query<span></span></a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component<span></span></a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion<span></span></a></li>
@@ -187,11 +189,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="market-cap" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Market Cap<a href="results.html#market-cap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We want to compare the market cap of the traditional stocks with the cryptos, so we get the Wilshire 5000 Total Market Full Cap Index at the end of each month as the measurement of the market cap of the traditional stocks and make the following plot.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p>The market cap of the cryptos and traditional stocks basically follow the same trend in recent years, while the market cap of the cryptos expanded more rapidly. This leads us to the next question, what cryptos dominate the trend and how the internal structure of cryptocurrencies has changed.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>From the previous plot we know that The market capitalization ratio of cryptocurrencies has changed dramatically over the past few years.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <p>From the market cap mosaic plot we can find out that the total market cap of cryptocurrencies expand rapidly in year 2017 and</p>
 <p>The plot above shows the progress of crypto’s market capitalization over the recent years. it is interesting to see that in the early years ADA and XRP shared a significant amount of crypto’s market capitalization.</p>
 <p>As Bitcoin has grown in popularity over the years, its market cap has increased many times over.</p>
@@ -205,10 +207,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.2.1</span> Among Cryptocurrencies<a href="results.html#among-cryptocurrencies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Bitcoin, Ethereum, XRP are top three cryptocurrencies with the highest market cap at the end of 2021, so we choose these three coins to represent cryptos. We will use their daily closing price between 2018 and 2021 to explore their relationship.</p>
 <p>In order to show the closing price relationship among different cryptos more clearly, we have do some scaled transformation on data.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <p>From the Feature Cryptocurrencies Daily Closing Price plot, we can clearly find out that there is significant relationship among each crypto’s daily closing price. We also find out the relationship seems changed in 2020.</p>
 <p>To dig deeper on their relationship, we generate a pair scatter plot and colored the data point by the year.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <p>The pairs scatter plot give us very interesting result that these three cryptos’ daily closing price basically follows linear relationship with each other and the slope of the linear relationship line is changed at the begining of 2020. Before 2020, XRP closing price is higher than that after 2020 with the same ETH or BTC price.</p>
 <p>We can conclude from the pair plot that before 2020, XRP is overvalued. And after 2020, BTC may be overvalued.</p>
 </div>
@@ -216,12 +218,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.2.2</span> Cryptos v.s stocks<a href="results.html#cryptos-v.s-stocks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Nowadays, cryptocurrencies have also become an investment target. Therefore, cryptocurrencies have replaced the status of traditional investment targets to a some extent.So we want to explore the relationship between the closing price of cryptocurrencies and the closing price of traditional stocks.</p>
 <p>We will use NASDAQ 100 Index and Dow Jones Industrial Average as the measurement of the pricing change of the traditional stocks. We will use BTC and XRP to represent cryptos as based on the discussion above, they basically represent two stage of crypto’s pricing change.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>From the plot we can conclude that both the cryptocurrency, represented by Bitcoin and ETH, and the traditional financial assets, represented by the Nasdaq 100 index and DJI, their financial yield sequence of have the characteristics of peaks and thick tails, and the rate of return and volatility of encrypted cryptocurrency is greater after 2020.</p>
 </div>
 </div>
 <div id="price-v.s.-google-trend" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Price v.s. Google Trend<a href="results.html#price-v.s.-google-trend" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Social media and news play an important role in driving the fluctuation of economic indicators and financial markets in a nontrivial fashion. Therefore, it is not surprising that the rapid development of cryptocurrency has attracted increasing attention from news and social media.</p>
+<p>In this part, we introduce Google trend as the measurement and perform preliminary data exploratory method to discuss its relationship with cryptos(BTC) pricing change.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>The plot shows that there is a certain lag between the popularity on social media and the daily return of cryptocurrencies. Generally, the Google Trend index will increase significantly a few days after days when Bitcoin fluctuated violently.</p>
+</div>
+<div id="google-trend-v.s-state" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Google Trend v.s State<a href="results.html#google-trend-v.s-state" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Who are more interested in cryptos? This is also an interesting questions, as the transactions of Cryptocurrency are anonymous, we cannot obtain information about traders. So we will use Google Trend Index to get the demography characters of the people who are interested in cryptos.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>It is understandable that states such as California, Washington, and New York , which are economically developed, and where the Internet and financial companies gather, show a high interest in Bitcoin. But it’s surprisingly to see that people in Nevada are the most ardent fan of Bitcoin.</p>
+<p>By searching some information, we believe this result is due to Nevada’s easing policy on cryptocurrencies. Nevada became the first state to ban local governments from taxing blockchain use when it enacted Senate Bill No. 398, which established various provisions relating to the use of blockchain technology.</p>
+</div>
+<div id="related-query" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> related query<a href="results.html#related-query" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What else would people who follow Bitcoin search for? We plot the following word cloud to visualize it.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p>‘Stock’ and ‘Ethereum’ are most related, which also confirms our previous theory, that cryptocurrencies have strong correlations with each other and with traditional stocks.</p>
 
 </div>
 </div>
