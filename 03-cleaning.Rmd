@@ -24,15 +24,15 @@ And as we basically want the eight cryptocurrencies with the largest market cap 
 crypto_market_cap_1 = crypto_market_cap %>%
   arrange(`Market Cap`) %>%
   group_by(year) %>%
-  slice(1:12) %>%
+  slice(1:17) %>%
   group_by(year) %>%
   summarise(`Market Cap` = sum(`Market Cap`)) %>%
   mutate(Symbol='Others') %>%
-  select(Symbol,`Market Cap`,year)
+  dplyr::select(Symbol,`Market Cap`,year)
 crypto_market_cap_2 = crypto_market_cap %>%
   arrange(desc(`Market Cap`)) %>%
   group_by(year) %>%
-  slice(1:8)
+  slice(1:3)
 crypto_market_cap_tidy = rbind(crypto_market_cap_2,crypto_market_cap_1) %>%
   arrange(year,desc(`Market Cap`))
 ```

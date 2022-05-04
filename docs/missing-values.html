@@ -23,7 +23,7 @@
 <meta name="author" content="Xuan Lian" />
 
 
-<meta name="date" content="2022-05-03" />
+<meta name="date" content="2022-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -87,7 +87,16 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#market-cap"><i class="fa fa-check"></i><b>5.1</b> Market Cap<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#price-v.s-price"><i class="fa fa-check"></i><b>5.2</b> Price v.s Price<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="results.html"><a href="results.html#among-cryptocurrencies"><i class="fa fa-check"></i><b>5.2.1</b> Among Cryptocurrencies<span></span></a></li>
+<li class="chapter" data-level="5.2.2" data-path="results.html"><a href="results.html#cryptos-v.s-stocks"><i class="fa fa-check"></i><b>5.2.2</b> Cryptos v.s stocks<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#price-v.s.-google-trend"><i class="fa fa-check"></i><b>5.3</b> Price v.s. Google Trend<span></span></a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component<span></span></a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion<span></span></a></li>
 <li class="divider"></li>
@@ -121,8 +130,10 @@
 ## 2016-01-03       430.010986           NA
 ## 2016-01-04       433.091003  4497.859863</code></pre>
 <p>Here we plot the missing values in year 2016.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-108-2.png" width="672" /></p>
+<p>Only NDX.Adj contains the missing value, and the proportion of missing row is approximately 30%, which is consistent with the proportion of the non-trading days of a year(1-252/365).</p>
 <p>And we will use last non-missing observation carried forward to fill missing values</p>
+<pre><code>df_no_missing = setnafill(df_2,&#39;locf&#39;)</code></pre>
 <pre><code>##            BTC.USD.Adjusted NDX.Adjusted
 ## 2015-12-31       430.566986  4593.270020
 ## 2016-01-01       434.334015  4593.270020

@@ -1,1 +1,194 @@
 # Results
+
+
+## Market Cap 
+
+We want to compare the market cap of the traditional stocks with the cryptos, so we get the Wilshire 5000 Total Market Full Cap Index at the end of each month as the measurement of the market cap of the traditional stocks and make the following plot.
+
+```{r}
+#Frequent request query will cause 403 error, so please not run the following codes frequently.
+
+# base_url = 'https://coinmarketcap.com/historical/'
+# dates_seq = format(seq(as.Date("2016/1/1"), as.Date("2021/12/31"), "months"),'%Y%m%d')
+# for(dates in dates_seq){
+#   url = paste0(base_url,dates)
+#   dt = read_html(url) %>% html_table(fill = TRUE)
+#   dt = dt[3][[1]] %>% select(Symbol, `Market Cap`) %>%
+#     mutate('date' = as.Date(dates,'%Y%m%d')) %>% 
+#     slice_head(n=20) 
+#   Market_cap = dt$`Market Cap`
+#   Market_cap = substr(Market_cap,2,length(Market_cap))
+#   Market_cap = str_replace_all(Market_cap,',','')
+#   options(digits=10)
+#   dt$`Market Cap` = as.numeric(Market_cap)
+#   dt = dt  %>% group_by(date) %>%
+#     summarise(market_cap = sum(`Market Cap`))
+#   if(dates == '20160101'){
+#     crypto_market_cap_daily = as_tibble(dt)
+#   }
+#   else{
+#     crypto_market_cap_daily = rbind(crypto_market_cap_daily,dt)
+#   }
+# }
+# write_csv(crypto_market_cap_daily,'crypto_cap_bymonth.csv')
+```
+
+
+
+```{r}
+crypto_cap_bymonth = read_csv('crypto_cap_bymonth.csv')
+market_cap_compare = read_csv('WILL5000INDFC.csv') %>%
+  left_join(crypto_cap_bymonth,by =c('DATE'='date'))
+trans = (10)
+market_cap_compare %>% ggplot() +
+  geom_line(aes(x = DATE, y =WILL5000INDFC,col = 'traditional stocks')) +
+  geom_line(aes(x = DATE, y=market_cap/(trans*1e9),col = 'cryptocurrencies'))+
+   scale_y_continuous(
+    name = "Wilshire 5000 Total Market Full Cap Index",
+    sec.axis = sec_axis(~.*trans,name="Cryptocurrencies Market Cap (billion USD)")
+  )+
+  theme_bw() +
+  labs(title='Traditional Stocks v.s Cryptos Market Cap',
+       colour = '')
+```
+
+The market cap of the cryptos and traditional stocks basically follow the same trend in recent years, while the market cap of the cryptos expanded more rapidly. This leads us to the next question, what cryptos dominate the trend and how the internal structure of cryptocurrencies has changed.
+
+```{r}
+crypto_market_cap %>% group_by(year) %>%
+  slice(1:7) %>%
+  rownames_to_column('rank') %>%
+  mutate(rank = (as.numeric(rank)-1)%%7+1) %>%
+  ggplot(aes(x=year,y = rank,group =Symbol)) +
+  geom_line(aes(color = Symbol), size = 2) +
+  geom_point(aes(color = Symbol), size = 4) +
+  scale_color_manual(values = c('purple', 'blue', 'grey', 'red',
+                                'grey','grey', 'pink', 'grey', 'yellow',
+                                'green', 'grey', 'grey', 'grey',
+                                'cyan', 'grey', 'grey', 'orange'))+
+  geom_label(aes(x = year, y = rank,label = Symbol),label.size = .1) +
+  scale_y_reverse(breaks = 1:7) +
+  theme_bw()+
+  labs(title = 'Yearly Top 7 Market Cap Cryptocurrencies',
+       y = 'Market Cap Rank of the Year')
+```
+
+From the previous plot we know that The market capitalization ratio of cryptocurrencies has changed dramatically over the past few years. 
+
+```{r}
+crypto_market_cap_mosaic = crypto_market_cap_tidy
+crypto_market_cap_mosaic$Symbol = factor(crypto_market_cap_mosaic$Symbol)
+crypto_market_cap_mosaic$Symbol=
+  fct_rev(fct_reorder(crypto_market_cap_mosaic$Symbol,crypto_market_cap_mosaic$`Market Cap`,max))
+ggplot(data = crypto_market_cap_mosaic) +
+  geom_mosaic(aes(x = product(year),weight = `Market Cap`,fill =Symbol,text = Symbol),na.rm = T,offset = 0.002) +
+  geom_mosaic_text(aes(x = product(year),weight = `Market Cap`,fill =Symbol,text = Symbol),na.rm = T,offset = 0.002,check_overlap = T,inherit.aes = T)+
+  theme_mosaic()+
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(title = 'mosaic plot of cryptocurrencies v.s year')
+```
+
+
+
+From the market cap mosaic plot we can find out that the total market cap of cryptocurrencies expand rapidly in year 2017 and 
+
+The plot above shows the progress of crypto’s market capitalization over the recent years. it is interesting to see that in the early years ADA and XRP shared a significant amount of crypto's market capitalization.
+
+As Bitcoin has grown in popularity over the years, its market cap has increased many times over.
+
+However, in 2021 more and more other new cryptocurrency emerged and many new cryptos other than traditional ones, like BTC, ETH and XRP , had a significant market capitalization.
+
+## Price v.s Price
+
+OHLCV is an aggregated form of market data standing for Open, High, Low, Close and Volume. OHLCV data includes 5 data points: the Open and Close represent the first and the last price level during a specified interval. High and Low represent the highest and lowest reached price during that interval.
+
+From our data source(Yahoo Finance), we can get the daily OHLCV data of each cryptocurrency and traditional stocks. So in this chapter, we want to explore the price changing relationship between traditional stocks and cryptocurrencies.
+
+### Among Cryptocurrencies
+
+Bitcoin, Ethereum, XRP are top three cryptocurrencies with the highest market cap at the end of 2021, so we choose these three coins to represent cryptos. We will use their daily closing price between 2018 and 2021 to explore their relationship.
+
+
+In order to  show the closing price relationship among different cryptos more clearly, we have do some scaled transformation on data.
+
+```{r}
+date_seq = seq(as.Date("2018/1/1"), as.Date("2021/12/31"), "days")
+dt_BTC =  getSymbols('BTC-USD',src='yahoo',auto.assign=FALSE)$`BTC-USD.Close`[date_seq]
+dt_ETH = getSymbols('ETH-USD',src='yahoo',auto.assign=FALSE)$`ETH-USD.Close`[date_seq]
+dt_XRP = getSymbols('XRP-USD',src='yahoo',auto.assign=FALSE)$`XRP-USD.Close`[date_seq]
+dt_among_crptos = dt_BTC %>% merge(dt_ETH) %>%merge(dt_XRP)
+dt_among_crptos = data.frame(dt_among_crptos)
+dt_among_crptos %>%
+  rownames_to_column("Date") %>%
+  mutate(Date = as.Date(Date))%>%
+  ggplot() +
+  geom_line(aes(x = Date,y = `BTC.USD.Close`/30000,col = 'BTC price/30000')) +
+  geom_line(aes(x = Date,y = `ETH.USD.Close`/3000,col = 'ETH price/3000')) +
+  geom_line(aes(x = Date,y = `XRP.USD.Close`,col = 'XRP price')) +
+  ggtitle('Feature Cryptocurrencies Daily Closing Price') +
+  labs(y = 'Scaled Closing Price USD',
+       colors = '') +
+  theme_bw()
+```
+
+
+From the Feature Cryptocurrencies Daily Closing Price plot, we can clearly find out that there is significant relationship among each crypto's daily closing price. We also find out the relationship seems changed in 2020.
+
+To dig deeper on their relationship, we generate a pair scatter plot and colored the data point by the year.
+
+```{r}
+group = NA
+group[as.numeric(substr(rownames(dt_among_crptos),1,4))<=2019]=1
+group[as.numeric(substr(rownames(dt_among_crptos),1,4))>2019]=2
+plot.new()
+pairs(dt_among_crptos,
+       col = c("red", "cornflowerblue")[group],
+      oma=c(3,3,7,15))
+par(xpd = TRUE)
+legend("right", fill = c("red", "cornflowerblue"), legend = c('Before 2020','After 2020'))
+title('Feature Cryptocurrencies Daily Closing Price Pair Plot')
+```
+
+The pairs scatter plot give us very interesting result that these three cryptos' daily closing price basically follows linear relationship with each other and the slope of the linear relationship line is changed at the begining of 2020. Before 2020, XRP closing price is higher than that after 2020 with the same ETH or BTC price.
+
+We can conclude from the pair plot that before 2020, XRP is overvalued. And after 2020, BTC may be overvalued. 
+
+### Cryptos v.s stocks
+
+Nowadays, cryptocurrencies have also become an investment target. Therefore, cryptocurrencies have replaced the status of traditional investment targets to a some extent.So we want to explore the relationship between the closing price of cryptocurrencies and the closing price of traditional stocks.
+
+We will use NASDAQ 100 Index and Dow Jones Industrial Average as the measurement of the pricing change of the traditional stocks. We will use BTC and XRP to represent cryptos as based on the discussion above, they basically represent two stage of crypto's pricing change.
+
+```{r}
+dt_DJI = getSymbols('^DJI',src='yahoo',auto.assign=FALSE)$`DJI.Close`[date_seq]
+dt_NDX = getSymbols('^NDX',src='yahoo',auto.assign=FALSE)$`NDX.Close`[date_seq]
+dt_stock_crypto = dt_BTC %>% merge(dt_XRP) %>%
+  merge(dt_DJI) %>% merge(dt_NDX)
+dt_stock_crypto = data.frame(dt_stock_crypto)
+setnafill(dt_stock_crypto,'locf')
+setnafill(dt_stock_crypto,'nocb')
+dt_stock_crypto %>%
+  rownames_to_column("Date") %>%
+  mutate(Date = as.Date(Date))%>%
+  ggplot() +
+  geom_line(aes(x = Date,y = `BTC.USD.Close`/30000,col = 'BTC price/30000')) +
+  geom_line(aes(x = Date,y = `DJI.Close`/30000,col = 'DJI price/30000')) +
+  geom_line(aes(x = Date,y = `XRP.USD.Close`,col = 'XRP price')) +
+  geom_line(aes(x = Date,y = `NDX.Close`/10000,col = 'NDX price/10000')) +
+  ggtitle('Feature Cryptocurrencies and Traditional Stocks Daily Closing Price') +
+  labs(y = 'Scaled Closing Price USD',
+       colors = '') +
+  theme_bw()
+```
+
+From the plot we can conclude that both the cryptocurrency, represented by Bitcoin and ETH, and the traditional financial assets, represented by the Nasdaq 100 index and DJI, their financial yield sequence of have the characteristics of peaks and thick tails, and the rate of return and volatility of encrypted cryptocurrency is greater after 2020.
+
+## Price v.s. Google Trend
+
+
+
+
+
+

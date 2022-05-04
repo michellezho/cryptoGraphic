@@ -14,9 +14,10 @@ site: bookdown::bookdown_site
   According to the report from cryptocurrency tracker CoinGecko, the total market capitalization of cryptocurrencies is \$2.36 trillion, while the total market capitalization of bitcoin is $900 billion by the end of 2021. There are only 16 countries in the world with a GDP larger than Bitcoin (BTC) market value.
 
 ```{r}
+library(tidyverse)
 BTC_2021 <- tibble(`Country Name`='Bitcoin','GDP' = 987310000000)
 countries_GDP <- read_csv('countries_GDP.csv') %>%
-  select(`Country Name`,`2020 [YR2020]`) %>%
+  dplyr::select(`Country Name`,`2020 [YR2020]`) %>%
   rename(GDP=`2020 [YR2020]`) %>%
   rbind(BTC_2021) %>%
   mutate(GDP = as.numeric(GDP)/1e9) %>%

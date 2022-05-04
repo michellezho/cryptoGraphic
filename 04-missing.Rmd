@@ -35,11 +35,13 @@ df_2 = df_2 %>%
 plot_missing(df_2)
 ```
 
+Only NDX.Adj contains the missing value, and the proportion of missing row is approximately 30%, which is consistent with the proportion of the non-trading days of a year(1-252/365).
+
 And we will use last non-missing observation carried forward to fill missing values
 
+    df_no_missing = setnafill(df_2,'locf')
+
 ```{r}
-df_no_missing = df_2 %>%
-  column_to_rownames('date') 
-df_no_missing = setnafill(df_no_missing,'locf')
+df_no_missing = setnafill(df_2,'locf')
 head(df_no_missing)
 ```

@@ -72,7 +72,7 @@ base_url = 'https://coinmarketcap.com/historical/'
 for(year in seq(2016,2021)){
   url = paste0(base_url,year,'1231')
   dt = read_html(url) %>% html_table(fill = TRUE)
-  dt = dt[3][[1]] %>% select(Symbol, `Market Cap`) %>%
+  dt = dt[3][[1]] %>% dplyr::select(Symbol, `Market Cap`) %>%
     mutate('year' = year) %>%
     slice_head(n=20)
   if(year == 2016){
