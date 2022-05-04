@@ -92,7 +92,7 @@ ggplot(data = crypto_market_cap_mosaic) +
 
 
 
-From the market cap mosaic plot we can find out that the total market cap of cryptocurrencies expand rapidly in year 2017 and 
+From the market cap mosaic plot we can find out that the total market cap of cryptocurrencies expand rapidly in year 2017，2018 and 2019. Then drop down in year 2020.
 
 The plot above shows the progress of crypto’s market capitalization over the recent years. it is interesting to see that in the early years ADA and XRP shared a significant amount of crypto's market capitalization.
 
