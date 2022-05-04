@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2016-01-03       430.010986           NA
 ## 2016-01-04       433.091003  4497.859863</code></pre>
 <p>Here we plot the missing values in year 2016.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-33-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 <p>Only NDX.Adj contains the missing value, and the proportion of missing row is approximately 30%, which is consistent with the proportion of the non-trading days of a year(1-252/365).</p>
 <p>And we will use last non-missing observation carried forward to fill missing values</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="missing-values.html#cb13-1" aria-hidden="true" tabindex="-1"></a>df_no_missing <span class="ot">=</span> <span class="fu">setnafill</span>(df_2,<span class="st">&#39;locf&#39;</span>)</span>
