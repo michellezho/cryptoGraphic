@@ -29,7 +29,7 @@ countries_GDP %>%
   geom_col() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
         legend.position = "none")+
-  labs(title = "Highest BTC Market Value v.s Countries' 2020 GDP",
+  labs(title = "Highest BTC Market Value v.s. Countries' 2020 GDP",
        x = 'Country Name',
        y = 'GDP of 2020 (current Billion USD)')
 ```

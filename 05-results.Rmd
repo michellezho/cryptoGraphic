@@ -226,7 +226,7 @@ data.frame(BTC_daily_trend) %>%
   geom_line(aes(x = Date, y =BTC.USD.Close,col= "Bitcoin Daily Return %")) +
   geom_col(aes(x = Date, y=Bitcoin_US_daily_HIT.hits/10,fill = 'Google Trend Index'),alpha = 0.5)+
   geom_col(aes(x = Date, y=-Bitcoin_US_daily_HIT.hits/10,fill = 'Google Trend Index'),alpha = 0.5)+
-  scale_color_manual(values = c("Bitcoin Daily Return %" = "Blue"))+
+  scale_color_manual(values = c("Bitcoin Daily Return %" = "red"))+
    scale_y_continuous(
     name = "Bitcoin Daily Return %",
     sec.axis = sec_axis(~.*1,name="Google Trend Index")

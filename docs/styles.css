@@ -1,0 +1,68 @@
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+	background: #a3b3cc;
+}
+
+#legend {
+  transform: translate(2em, 1em);
+}
+
+.legend-cases-label {
+  font-size: 1.2em;
+  letter-spacing: 1.2px;
+/* 	font-weight: bold; */
+}
+
+.legend-cases-ticks {
+  fill: black;
+}
+
+/* On mouseover, lighten state color */
+.state-container:hover .us-state{
+ 	fill-opacity: .7;
+  cursor: pointer;
+}
+/* On mouseover, display # of cases */
+.state-container:hover .cases-text,
+.state-container.selected .cases-text {
+  opacity: 100%;
+}
+
+/* Style the state path */
+.us-state {
+	stroke: white;
+  stroke-width: 0.4;
+}
+
+/* Style the text displaying the cases */
+.cases-text {
+  font-size: 1em;
+  font-weight: bolder;
+  fill: white;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Style for Custom Tooltip */
+div.tooltip {   
+ 	position: absolute;           
+	text-align: center;           
+	width: 3.8em;                  
+	height: 1.8em;                 
+	padding: 2px;             
+	font-size: 0.8em;        
+	background: white;   
+	border: 0px;      
+	border-radius: 0.5em;           
+	pointer-events: none;         
+}
+        
+
+        
+/* Legend Position Style */
+/* .legend {
+	position:absolute;
+	left:800px;
+	top:350px;
+} */
